@@ -168,5 +168,5 @@ created_issue_info <- lapply(all_issue_list,
                         },
                         user_key = user_key)
 # save the migrated issue data
-saveRDS(all_issue_list, "all_issue_list.rds")
-saveRDS(created_issue_info, "created_issue_info.rds")
+saveRDS(all_issue_list, "all_issue_list_redmine.rds")
+saveRDS(created_issue_info, "created_issue_gh_info.rds")
