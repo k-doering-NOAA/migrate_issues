@@ -106,13 +106,14 @@ create_issue <- function(redmine_issue_info, user_key) {
                                user_key)
   # add priority, category, and tags as labels.
   tmp_labels <- redmine_issue_info$content$issue$tags
-  if(!is.null(redmine_issue_info$content$issue$priority$name)) {
-      tmp_labels <- c(tmp_labels, 
-        paste0("Priority: ", redmine_issue_info$content$issue$priority$name))
-  }
+  # commented out priority b/c it is too much info that we don't typically use.
+  # if(!is.null(redmine_issue_info$content$issue$priority$name)) {
+  #     tmp_labels <- c(tmp_labels, 
+  #       paste0("Priority: ", redmine_issue_info$content$issue$priority$name))
+  # }
   if(!is.null(redmine_issue_info$content$issue$category$name)) {
       tmp_labels <- c(tmp_labels,
-        paste0("Category: ", redmine_issue_info$content$issue$category$name))
+        redmine_issue_info$content$issue$category$name)
   }
   if(length(tmp_labels) == 0) {
     tmp_labels <- list()
@@ -152,7 +153,8 @@ create_issue <- function(redmine_issue_info, user_key) {
          owner = "nmfs-stock-synthesis", 
          repo = "test-issue-migration", 
          issue_number = tmp_info$number, 
-         body = paste0("comment from ", tmp_user,
+         body = paste0("comment from ", tmp_user, " on ", 
+                       substr(x$created_on, start = 1, stop = 10),
                        ":\n", x$notes))
       } else {
         cmt_info <- NA
