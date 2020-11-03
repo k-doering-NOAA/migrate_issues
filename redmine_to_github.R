@@ -28,7 +28,8 @@ library(gh)
 
 # get the issues we want information about
 issue_df <- read.csv("issues_open_ss_repo.csv")
-issue_vec <- issue_df$X. # note that number symbol not read in correctly.
+issue_vec <- rev(issue_df$X.) # note that number symbol not read in correctly.
+# use rev() so earliest issues come first instead of last.
 
 # Read in a .csv containing all tagged issues, with their associated tags.
 issue_tag_key <- read.csv("issues_tags_key.csv")
@@ -145,14 +146,17 @@ create_issue <- function(redmine_issue_info, user_key) {
       } else {
         tmp_user <- paste0("@", tmp_user)
       }
+      if(isTRUE(x$notes != "")) {
       # Add a note to the just created issue, hard coding the issue number for now
       cmt_info <- gh::gh("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", 
          owner = "nmfs-stock-synthesis", 
          repo = "test-issue-migration", 
          issue_number = tmp_info$number, 
          body = paste0("comment from ", tmp_user,
-                       ":\n", x$notes)
-      )
+                       ":\n", x$notes))
+      } else {
+        cmt_info <- NA
+      }
       Sys.sleep(1)
       cmt_info
     }, user_key = user_key)
