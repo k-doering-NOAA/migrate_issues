@@ -26,10 +26,9 @@ library(gh)
 # Use https://github.com/openanalytics/redmineR to get them.
 #all_projects <- redmine_projects()
 
-# download a single issue. Probably the easiest thing to do would be to 
-# get a list of the issue ids we want to migrate over, then call this command
-# iteratively, creating a list of the issues.
-issue_vec <- c(83862, 83773, 83123, 83053, 82969)
+# get the issues we want information about
+issue_df <- read.csv("issues_open_ss_repo.csv")
+issue_vec <- issue_df$X. # note that number symbol not read in correctly.
 
 # Read in a .csv containing all tagged issues, with their associated tags.
 issue_tag_key <- read.csv("issues_tags_key.csv")
