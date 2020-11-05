@@ -120,7 +120,7 @@ create_issue <- function(redmine_issue_info, user_key) {
   }
   tmp_info <- gh::gh("POST /repos/{owner}/{repo}/issues",
      owner = "nmfs-stock-synthesis", 
-     repo = "test-issue-migration", 
+     repo = "stock-synthesis", 
      title = redmine_issue_info$content$issue$subject,
      body = paste0("Imported from redmine, Issue [#", 
                    redmine_issue_info$content$issue$id, 
@@ -151,7 +151,7 @@ create_issue <- function(redmine_issue_info, user_key) {
       # Add a note to the just created issue, hard coding the issue number for now
       cmt_info <- gh::gh("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", 
          owner = "nmfs-stock-synthesis", 
-         repo = "test-issue-migration", 
+         repo = "stock-synthesis", 
          issue_number = tmp_info$number, 
          body = paste0("comment from ", tmp_user, " on ", 
                        substr(x$created_on, start = 1, stop = 10),
