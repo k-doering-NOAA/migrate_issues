@@ -27,7 +27,7 @@ library(gh)
 #all_projects <- redmine_projects()
 
 # get the issues we want information about
-issue_df <- read.csv("issues_open_ss_repo.csv")
+issue_df <- read.csv("issues_docs.csv")
 issue_vec <- rev(issue_df$X.) # note that number symbol not read in correctly.
 # use rev() so earliest issues come first instead of last.
 
@@ -120,7 +120,7 @@ create_issue <- function(redmine_issue_info, user_key) {
   }
   tmp_info <- gh::gh("POST /repos/{owner}/{repo}/issues",
      owner = "nmfs-stock-synthesis", 
-     repo = "stock-synthesis", 
+     repo = "ss-documentation", 
      title = redmine_issue_info$content$issue$subject,
      body = paste0("Imported from redmine, Issue [#", 
                    redmine_issue_info$content$issue$id, 
@@ -151,7 +151,7 @@ create_issue <- function(redmine_issue_info, user_key) {
       # Add a note to the just created issue, hard coding the issue number for now
       cmt_info <- gh::gh("POST /repos/{owner}/{repo}/issues/{issue_number}/comments", 
          owner = "nmfs-stock-synthesis", 
-         repo = "stock-synthesis", 
+         repo = "ss-documentation", 
          issue_number = tmp_info$number, 
          body = paste0("comment from ", tmp_user, " on ", 
                        substr(x$created_on, start = 1, stop = 10),
@@ -173,5 +173,5 @@ created_issue_info <- lapply(all_issue_list,
                         },
                         user_key = user_key)
 # save the migrated issue data
-saveRDS(all_issue_list, "all_issue_list_redmine.rds")
-saveRDS(created_issue_info, "created_issue_gh_info.rds")
+saveRDS(all_issue_list, "all_issue_list_redmine_docs.rds")
+saveRDS(created_issue_info, "created_issue_gh_info_docs.rds")
